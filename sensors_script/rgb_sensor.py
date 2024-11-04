@@ -1,5 +1,5 @@
 """
-module for reading color RGB values using TCS3200 Color Sensor and activating a buzzer based on specific RGB values.
+module for reading color RGB values using TCS3200 Color Sensor and activating a buzzer based on specific RGB values. DETECT WHITE
 """
 import RPi.GPIO as GPIO
 import time
@@ -20,11 +20,11 @@ BUZZER_PIN = 7
 
 NUM_CYCLES = 10 
 RED_THRESHOLD = 200
-GREEN_THRESHOLD = 100
-BLUE_THRESHOLD = 100
+GREEN_THRESHOLD = 200
+BLUE_THRESHOLD = 200
  
 FREQ_MIN = {'red': 500, 'green': 500, 'blue': 500}
-FREQ_MAX = {'red': 3000, 'green': 3000, 'blue': 3000}  
+FREQ_MAX = {'red': 2000, 'green': 2000, 'blue': 2000}  
 
 class ColorSensor:
     def __init__(self):
@@ -49,7 +49,7 @@ class ColorSensor:
         pwm = GPIO.PWM(BUZZER_PIN, 1000) 
         
     def buzzer_condition(self, red_value, green_value, blue_value):
-        return not red_value > RED_THRESHOLD and green_value < GREEN_THRESHOLD and blue_value < BLUE_THRESHOLD
+        return  red_value < RED_THRESHOLD or green_value < GREEN_THRESHOLD or blue_value < BLUE_THRESHOLD
 
     def activate_buzzer(self):
         pwm.start(50)  
